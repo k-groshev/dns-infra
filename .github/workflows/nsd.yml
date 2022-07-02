@@ -42,3 +42,4 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}/${{ env.APP }}:latest
             ${{ github.repository_owner }}/${{ env.APP }}:latest
+            
