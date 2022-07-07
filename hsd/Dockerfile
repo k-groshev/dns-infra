@@ -3,6 +3,7 @@ WORKDIR /opt/hsd
 RUN apk add --no-cache bash unbound-dev gmp-dev git
 RUN git clone https://github.com/handshake-org/hsd.git /opt/hsd
 
+
 # Install build dependencies and compile.
 FROM base AS build
 RUN apk add --no-cache g++ gcc make python3 
