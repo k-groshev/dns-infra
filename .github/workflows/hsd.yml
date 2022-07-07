@@ -21,15 +21,15 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
-          images: |
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.APP }}
+          images: | ${{ secrets.DOCKER_USERNAME }}/${{ env.APP }} 
             ghcr.io/${{ github.repository_owner }}/${{ env.APP}}
+            
           # generate Docker tags based on the following events/attributes
-          tags: |
-            type=semver,pattern={{version}},value=${{ github.event.inputs.version }}
+          tags: | type=semver,pattern={{version}},value=${{ github.event.inputs.version }}
             type=semver,pattern={{major}}.{{minor}},value=${{ github.event.inputs.version }}
             type=semver,pattern={{major}},value=${{ github.event.inputs.version }}
-
+            
+            
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
