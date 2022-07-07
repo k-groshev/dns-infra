@@ -6,7 +6,6 @@ RUN git clone https://github.com/handshake-org/hsd.git /opt/hsd
 # Install build dependencies and compile.
 FROM base AS build
 RUN apk add --no-cache g++ gcc make python3 
-## &&  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN npm install --production
 
