@@ -9,6 +9,7 @@ RUN apk add --no-cache g++ gcc make python3
 
 RUN npm install --production
 
+# copy all to resulting image
 FROM base
 ENV PATH="${PATH}:/opt/hsd/bin:/opt/hsd/node_modules/.bin"
 COPY --from=build /opt/hsd/node_modules /opt/hsd/node_modules/
