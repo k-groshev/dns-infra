@@ -1,7 +1,6 @@
 FROM node:14-alpine AS base
 WORKDIR /opt/hsd
 RUN apk add --no-cache bash unbound-dev gmp-dev git
-#COPY package.json /opt/hsd
 RUN git clone https://github.com/handshake-org/hsd.git /opt/hsd
 
 # Install build dependencies and compile.
