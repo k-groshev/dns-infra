@@ -2,6 +2,7 @@ FROM alpine:latest AS base
 WORKDIR /opt
 RUN apk add --no-cache \
   build-base \
+  bash \
   git \
   automake \
   autoconf \
