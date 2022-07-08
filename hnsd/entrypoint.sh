@@ -1,4 +1,6 @@
 #!/bin/sh
 set -e
 
-exec /opt/hnsd/hnsd -p 4 -r 127.0.0.1:53
+# --rs-host - recursive nameserver
+# --poll-size - size of peer pool
+exec /opt/hnsd/hnsd --pool-size 4 --rs-host 127.0.0.1:53
