@@ -1,0 +1,63 @@
+name: hnsd
+
+on:
+  push:
+    paths:
+      - 'hnsd/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APP: hnsd
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+#            ${{ secrets.DOCKER_USERNAME }}/${{ env.APP }}
+#            ghcr.io/${{ github.repository_owner }}/${{ env.APP}}
+#            ghcr.io/k-groshev/dns-infra/hsd                        
+          images: ahamemnon/hnsd
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=semver,pattern={{version}},value=${{ github.event.inputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ github.event.inputs.version }}
+            type=semver,pattern={{major}},value=${{ github.event.inputs.version }}
+            # default case
+            type=edge,branch=main
+            
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Dockker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ env.APP }}
+          file: ${{ env.APP }}/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
