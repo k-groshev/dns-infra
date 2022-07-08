@@ -15,8 +15,8 @@ ENV PATH="${PATH}:/opt/hsd/bin:/opt/hsd/node_modules/.bin"
 COPY --from=build /opt/hsd/node_modules /opt/hsd/node_modules/
 COPY --from=build /opt/hsd/bin /opt/hsd/bin/
 COPY --from=build /opt/hsd/lib /opt/hsd/lib/
+COPY entryoint.sh /
 
-EXPOSE 53
+EXPOSE 53/udp 53/tcp
 
-ENTRYPOINT ["hsd"]
-CMD ["--rs-host", "0.0.0.0", "--rs-port", "53"]
+ENTRYPOINT ["/entrypoint.sh"]
